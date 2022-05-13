@@ -1,0 +1,25 @@
+FROM python:3.9
+
+
+# set display port to avoid crash
+ENV DISPLAY=:99
+
+# set work directory
+RUN mkdir -p /usr/src/app
+WORKDIR /usr/src/app
+
+# copy all project files to our work directory
+COPY . /usr/src/app
+
+# install requirements
+RUN pip install -r requirements.txt
+
+# open port 80 for django
+EXPOSE 80
+
+# copy runserver.sh to bin
+COPY ./runserver.sh /usr/local/bin/
+
+# run - migrate, load data, and run
+CMD ["sh","runserver.sh"]
+
